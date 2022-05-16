@@ -149,6 +149,120 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://evalin0316.github.io/2022/05/16/Aarry-Cardio/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/myblog/images/avatar.gif">
+      <meta itemprop="name" content="Hsiang Ting">
+      <meta itemprop="description" content="Front-End">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Front-End Learning Note">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/myblog/2022/05/16/Aarry-Cardio/" class="post-title-link" itemprop="url">Aarry Cardio</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-05-16 15:35:00 / Modified: 15:42:08" itemprop="dateCreated datePublished" datetime="2022-05-16T15:35:00+08:00">2022-05-16</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/myblog/categories/javascript30/" itemprop="url" rel="index"><span itemprop="name">javascript30</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Array-Cardio"><a href="#Array-Cardio" class="headerlink" title="Array Cardio"></a>Array Cardio</h1><h3 id="從Javascript30-07學習陣列的各種操作"><a href="#從Javascript30-07學習陣列的各種操作" class="headerlink" title="從Javascript30-07學習陣列的各種操作"></a><strong>從Javascript30-07學習陣列的各種操作</strong></h3><p>範例資料:<br> <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"> const people = [</span><br><span class="line">      &#123; name: &#x27;Wes&#x27;, year: 1988 &#125;,</span><br><span class="line">      &#123; name: &#x27;Kait&#x27;, year: 1986 &#125;,</span><br><span class="line">      &#123; name: &#x27;Irv&#x27;, year: 1970 &#125;,</span><br><span class="line">      &#123; name: &#x27;Lux&#x27;, year: 2015 &#125;</span><br><span class="line">    ];</span><br><span class="line"></span><br><span class="line">const comments = [</span><br><span class="line">      &#123; text: &#x27;Love this!&#x27;, id: 523423 &#125;,</span><br><span class="line">      &#123; text: &#x27;Super good&#x27;, id: 823423 &#125;,</span><br><span class="line">      &#123; text: &#x27;You are the best&#x27;, id: 2039842 &#125;,</span><br><span class="line">      &#123; text: &#x27;Ramen is my fav food ever&#x27;, id: 123523 &#125;,</span><br><span class="line">      &#123; text: &#x27;Nice Nice Nice!&#x27;, id: 542328 &#125;</span><br><span class="line">];</span><br></pre></td></tr></table></figure></p>
+<p>練習題目:</p>
+<ol>
+<li>查詢陣列內是否有人成年</li>
+<li>查詢陣列內是否皆為成年</li>
+<li>在comments中找到id是823423的資料</li>
+<li>在comments中找到id是823423的資料索引值, 並透過索引值刪除這筆資料</li>
+</ol>
+<p>一、 查詢陣列內是否有人成年</p>
+<p><strong>使用some()方法</strong></p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Global_Objects/Array/some">some() 方法會透過給定函式、測試陣列中是否至少有一個元素，通過該函式所實作的測試。這方法回傳的是布林值。</a></p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">let getYear = new Date().getFullYear();</span><br><span class="line">let result = people.some((x)=&gt; getYear - x.year &gt;=18);</span><br><span class="line">console.log(result); //ture</span><br></pre></td></tr></table></figure>
+
+<p>二、查詢陣列內是否皆為成年</p>
+<p><strong>使用every()方法</strong></p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Global_Objects/Array/every"> every() 方法會測試陣列中的所有元素是否都通過了由給定之函式所實作的測試</a></p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">let getYear = new Date().getFullYear();</span><br><span class="line">let result = people.every((x)=&gt; getYear - x.year &gt;= 0);</span><br><span class="line">console.log(result); //true</span><br></pre></td></tr></table></figure>
+
+<p>三、在comments中找到id是823423的資料</p>
+<p><strong>使用find()方法</strong></p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Global_Objects/Array/find">find() 方法會回傳第一個滿足所提供之測試函式的元素值。否則回傳 undefined。</a></p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let result = comments.find((x)=&gt;x.id == 823423);</span><br><span class="line">console.log(result);</span><br></pre></td></tr></table></figure>
+
+
+<p>四、在comments中找到id是823423的資料索引值, 並透過索引值刪除這筆資料</p>
+<p><strong>使用findIndex()方法</strong></p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex">findIndex() 方法將依據提供的測試函式，尋找陣列中符合的元素，並返回其 index（索引）。如果沒有符合的對象，將返回 -1 。</a></p>
+</blockquote>
+<p><strong>首先先找出id= 8234232，並回傳index</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let index = comments.findIndex((x)=&gt;x.id == 823423);</span><br><span class="line">console.log(index); //1</span><br></pre></td></tr></table></figure>
+
+<p><strong>刪除上面所找到的index</strong></p>
+<p>使用splice()方法</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Global_Objects/Array/splice">splice() 方法可以藉由刪除既有元素並／或加入新元素來改變一個陣列的內容。</a></p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">comments.splice(index,1);</span><br><span class="line">console.teble(comments); //結果如下圖</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://i.imgur.com/dy1IqEQ.png"></p>
+<p>參考資料:<br><a target="_blank" rel="noopener" href="https://github.com/wesbos/JavaScript30">https://github.com/wesbos/JavaScript30</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="https://evalin0316.github.io/2021/12/06/JavaScript-References-VS-Copying/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -180,7 +294,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2021-12-10 17:35:42" itemprop="dateModified" datetime="2021-12-10T17:35:42+08:00">2021-12-10</time>
+                <time title="Modified: 2022-05-16 15:41:40" itemprop="dateModified" datetime="2022-05-16T15:41:40+08:00">2022-05-16</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -253,6 +367,7 @@
 <ol>
 <li><a target="_blank" rel="noopener" href="https://github.com/soyaine/JavaScript30/tree/master/14%20-%20JavaScript%20References%20VS%20Copying">https://github.com/soyaine/JavaScript30/tree/master/14%20-%20JavaScript%20References%20VS%20Copying</a></li>
 <li><a target="_blank" rel="noopener" href="https://hsiangfeng.github.io/javascript/20200905/1375484447/">https://hsiangfeng.github.io/javascript/20200905/1375484447/</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/wesbos/JavaScript30">https://github.com/wesbos/JavaScript30</a></li>
 </ol>
 </blockquote>
 
@@ -305,7 +420,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2021-12-10 17:26:10" itemprop="dateModified" datetime="2021-12-10T17:26:10+08:00">2021-12-10</time>
+                <time title="Modified: 2022-05-16 15:42:57" itemprop="dateModified" datetime="2022-05-16T15:42:57+08:00">2022-05-16</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -445,6 +560,7 @@
 <ul>
 <li><a target="_blank" rel="noopener" href="http://techaride.blogspot.com/2012/07/javascript-localstorage.html">http://techaride.blogspot.com/2012/07/javascript-localstorage.html</a></li>
 <li><a target="_blank" rel="noopener" href="https://github.com/FEGuideTeam/FEGuide/tree/master/html%E9%97%AE%E9%A2%98">https://github.com/FEGuideTeam/FEGuide/tree/master/html%E9%97%AE%E9%A2%98</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/wesbos/JavaScript30">https://github.com/wesbos/JavaScript30</a></li>
 </ul>
 </blockquote>
 
@@ -528,7 +644,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/myblog/archives/">
         
-          <span class="site-state-item-count">2</span>
+          <span class="site-state-item-count">3</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -564,7 +680,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2021</span>
+  <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
