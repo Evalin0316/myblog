@@ -149,6 +149,132 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://evalin0316.github.io/2022/07/11/%E9%97%9C%E6%96%BCDOM%E4%BA%8B%E4%BB%B6%E7%9A%84%E6%A9%9F%E5%88%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/myblog/images/avatar.gif">
+      <meta itemprop="name" content="Hsiang Ting">
+      <meta itemprop="description" content="Front-End">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Front-End Learning Note">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/myblog/2022/07/11/%E9%97%9C%E6%96%BCDOM%E4%BA%8B%E4%BB%B6%E7%9A%84%E6%A9%9F%E5%88%B6/" class="post-title-link" itemprop="url">關於DOM事件的機制</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-07-11 15:35:00 / Modified: 15:35:55" itemprop="dateCreated datePublished" datetime="2022-07-11T15:35:00+08:00">2022-07-11</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="關於DOM事件的機制"><a href="#關於DOM事件的機制" class="headerlink" title="關於DOM事件的機制"></a>關於DOM事件的機制</h1><p>JavaScript 是一個事件驅動 (Event-driven) 的程式語言，當使用者點擊瀏覽器載入網頁時，雖然會立刻載入JS檔案，但是想是要開啟一個dialog，還是需要透過使用者點擊按鈕才會觸發彈跳出dialog。</p>
+<p>而使用者點擊按鈕這件事被稱為「事件」，而負責處理事件的程式通常被稱為「事件處理者」(Event Handler)，也就是彈跳對話框這個動作。</p>
+<h3 id="事件流程"><a href="#事件流程" class="headerlink" title="事件流程"></a>事件流程</h3><p>首先先了解HTML的設置</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;one&quot;&gt;</span><br><span class="line">  &lt;div class=&quot;two&quot;&gt;</span><br><span class="line">    &lt;div class=&quot;three&quot;&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+
+<p>最外層是 <code>&lt;div class=&quot;one&quot;&gt;</code> 第二層是 <code>&lt;div class=&quot;two&quot;&gt;</code><br>第三層是<code> &lt;div class=&quot;three&quot;&gt;</code></p>
+<p>當我們點擊了 第三層(class=”three”)的時候，是不是代表也點擊到最外層(class=”one”)，甚至再看遠一點，可以說實際上我們也點擊到整個網頁。</p>
+<p>而事件流程 (Event Flow) 指的就是「網頁元素接收事件的順序」。</p>
+<p>事件機制主要分成這幾個部分:</p>
+<ul>
+<li>Event Capture(事件捕捉)</li>
+<li>Event Bubbling(事件冒泡)</li>
+<li>Propagation, 及Once(單次執行)</li>
+</ul>
+<hr>
+<h3 id="接著分別講這三個事件機制"><a href="#接著分別講這三個事件機制" class="headerlink" title="接著分別講這三個事件機制:"></a>接著分別講這三個事件機制:</h3><p><strong>事件冒泡(Event Bubbling):</strong></p>
+<p><img src="https://i.imgur.com/I8esAj6.png"></p>
+<p>來源:<a target="_blank" rel="noopener" href="http://www.java2s.com/Book/JavaScript/DOM/Event_Flow_capture_target_and_bubbling.htm">Event Flow: capture, target, and bubbling</a></p>
+<p>事件冒泡指的是「從啟動事件的元素節點開始，逐層往上傳遞」，直到整個網頁的根節點，也就是 document。</p>
+<p>假設 HTML 如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">  &lt;title&gt;Sample&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line"></span><br><span class="line">  &lt;div&gt;CLICK&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<p>假設我們點擊了click，事件的觸發順序會如下:<br>1.<code>&lt;div&gt;click&lt;/div&gt;</code><br>2.<code>&lt;body&gt;&lt;/body&gt;</code><br>3.<code>&lt;html&gt;&lt;/html&gt;</code><br>4.<code>&lt;document&gt;</code></p>
+<p>如上事件逐層向上依序被觸發，就是冒泡事件。</p>
+<hr>
+<h4 id="事件捕獲-Event-Capturing"><a href="#事件捕獲-Event-Capturing" class="headerlink" title="事件捕獲 (Event Capturing)"></a>事件捕獲 (Event Capturing)</h4><p>上述提到事件事件冒泡的機制是由內層傳到外層，而事件捕獲則是相反的。</p>
+<p>以同樣的例子：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">  &lt;title&gt;Sample&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line"></span><br><span class="line">  &lt;div&gt;CLICK&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<p>假設我們點擊了click，事件的觸發順序會如下:<br>1.<code>&lt;document&gt;</code><br>2.<code>&lt;body&gt;&lt;/body&gt;</code><br>3.<code>&lt;html&gt;&lt;/html&gt;</code><br>4.<code>&lt;div&gt;click&lt;/div&gt;</code></p>
+<p>向上述click事件由上層依序觸發，就是事件捕獲。</p>
+<hr>
+<blockquote>
+<p>既然事件機制傳遞順序有兩種，這樣我們觸發事件是依賴哪種方式呢?</p>
+</blockquote>
+<p><img src="https://i.imgur.com/sjpN3sV.png"></p>
+<p>假設現在點擊藍色的區塊<code>&lt;td&gt;&lt;/td&gt;</code>，click事件發生時，會先走<br>紅色的capture phase，接著走綠色的bubbling phase(3)到document，<br>以上為整個事件流程。<br>由此可知，事件機制是<strong>兩種方式</strong>都會執行。</p>
+<p><strong>如何驗證事件流程?</strong><br>我們可以透過addEventListener來綁訂click事件</p>
+<h3 id="事件監聽-EventTarget-addEventListener"><a href="#事件監聽-EventTarget-addEventListener" class="headerlink" title="事件監聽 EventTarget.addEventListener()"></a>事件監聽 EventTarget.addEventListener()</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;div&gt;</span><br><span class="line">    &lt;div id=&quot;parent&quot;&gt;</span><br><span class="line">        父層</span><br><span class="line">        &lt;div id=&quot;child&quot;&gt;子層&lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">//父層</span><br><span class="line">let parent = document.getEelementById(&#x27;parent&#x27;);</span><br><span class="line"></span><br><span class="line">//子層</span><br><span class="line">let child  = document.getEelementById(&#x27;child&#x27;);</span><br><span class="line"></span><br><span class="line">// 透過 addEventListener 指定事件的綁定</span><br><span class="line">// 第三個參數 true / false 分別代表捕獲/ 冒泡 機制</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//parent 捕獲</span><br><span class="line">parent.addEventListener(&#x27;click&#x27;, function () &#123;</span><br><span class="line">  console.log(&#x27;Parent Capturing&#x27;);</span><br><span class="line">&#125;, true);</span><br><span class="line"></span><br><span class="line">//parent 冒泡</span><br><span class="line">parent.addEventListener(&#x27;click&#x27;, function()&#123;</span><br><span class="line">  console.log(&#x27;Child Capturing&#x27;);</span><br><span class="line">&#125;, false);</span><br><span class="line"></span><br><span class="line">// child 捕獲</span><br><span class="line">child.addEventListener(&#x27;click&#x27;, function () &#123;</span><br><span class="line">  console.log(&#x27;Child Capturing&#x27;);</span><br><span class="line">&#125;, true);</span><br><span class="line"></span><br><span class="line">//child 冒泡</span><br><span class="line">child.addEventListener(&#x27;click&#x27;, function () &#123;</span><br><span class="line">  console.log(&#x27;Parent Capturing&#x27;);</span><br><span class="line">&#125;, false);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<p>當點擊 click 事件時，事件觸發順序(console.log)如下:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&quot;Parent Capturing&quot;</span><br><span class="line">&quot;Child Capturing&quot;</span><br><span class="line">&quot;Child Bubbling&quot;</span><br><span class="line">&quot;Parent Bubbling&quot;</span><br></pre></td></tr></table></figure>
+
+<p>由上述事件觸發機制我們可以得到一個口訣:</p>
+<blockquote>
+<p>先捕獲，再冒泡</p>
+</blockquote>
+<h3 id="取消事件傳遞"><a href="#取消事件傳遞" class="headerlink" title="取消事件傳遞"></a>取消事件傳遞</h3><p>既然一條事件鏈那麼長，有方法可以中斷這一條鏈，讓事件的傳遞不再繼續。就是：<code>e.stopPropagation。</code></p>
+<p>以上面的例子為例:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">child.addEventListener(&#x27;click&#x27;, function (e) &#123; //帶入event參數</span><br><span class="line">  console.log(&#x27;Parent Capturing&#x27;);</span><br><span class="line">  e.stopPropagation();</span><br><span class="line">&#125;, true);</span><br></pre></td></tr></table></figure>
+
+
+<p>這樣的話console只會輸出</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&quot;Parent Capturing&quot;</span><br><span class="line">&quot;Child Capturing&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="https://evalin0316.github.io/2022/05/16/Aarry-Cardio/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -644,7 +770,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/myblog/archives/">
         
-          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-count">4</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
