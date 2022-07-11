@@ -174,7 +174,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2022-07-11 15:35:00 / Modified: 15:35:55" itemprop="dateCreated datePublished" datetime="2022-07-11T15:35:00+08:00">2022-07-11</time>
+              <time title="Created: 2022-07-11 15:35:00 / Modified: 15:57:36" itemprop="dateCreated datePublished" datetime="2022-07-11T15:35:00+08:00">2022-07-11</time>
             </span>
 
           
@@ -225,6 +225,7 @@
 <p>既然事件機制傳遞順序有兩種，這樣我們觸發事件是依賴哪種方式呢?</p>
 </blockquote>
 <p><img src="https://i.imgur.com/sjpN3sV.png"></p>
+<p>來源:<a target="_blank" rel="noopener" href="http://www.java2s.com/Book/JavaScript/DOM/Event_Flow_capture_target_and_bubbling.htm">Event Flow: capture, target, and bubbling</a></p>
 <p>假設現在點擊藍色的區塊<code>&lt;td&gt;&lt;/td&gt;</code>，click事件發生時，會先走<br>紅色的capture phase，接著走綠色的bubbling phase(3)到document，<br>以上為整個事件流程。<br>由此可知，事件機制是<strong>兩種方式</strong>都會執行。</p>
 <p><strong>如何驗證事件流程?</strong><br>我們可以透過addEventListener來綁訂click事件</p>
 <h3 id="事件監聽-EventTarget-addEventListener"><a href="#事件監聽-EventTarget-addEventListener" class="headerlink" title="事件監聽 EventTarget.addEventListener()"></a>事件監聽 EventTarget.addEventListener()</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;div&gt;</span><br><span class="line">    &lt;div id=&quot;parent&quot;&gt;</span><br><span class="line">        父層</span><br><span class="line">        &lt;div id=&quot;child&quot;&gt;子層&lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
@@ -247,15 +248,10 @@
 <p>這樣的話console只會輸出</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&quot;Parent Capturing&quot;</span><br><span class="line">&quot;Child Capturing&quot;</span><br></pre></td></tr></table></figure>
 
-
-
-
-
-
-
-
-
-
+<h6 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料:"></a>參考資料:</h6><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/dustinhsiao21/Javascript30-dustin/tree/master/25%20-%20Event%20Capture%2C%20Propagation%2C%20Bubbling%20and%20Once">https://github.com/dustinhsiao21/Javascript30-dustin/tree/master/25%20-%20Event%20Capture%2C%20Propagation%2C%20Bubbling%20and%20Once</a></li>
+<li><a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/articles/10191970">https://ithelp.ithome.com.tw/articles/10191970</a></li>
+</ul>
 
       
     </div>
